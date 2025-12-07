@@ -29,6 +29,7 @@ int angular_scale = (5.0 * 2.0 * PI) / measured_angle;
 
 void setup() {
   NoU3.begin();
+  STATE = START;
   PestoLink.begin("Midtown #40 Oscar");
   Serial.begin(115200);
   NoU3.calibrateIMUs();
@@ -265,8 +266,8 @@ void loop() {
       }
 
   if(STATE == CORAL) { // CORAL MODE PRESETS
-   //   algae1.set(-.5);
-     // algae2.set(.5);
+   algae1.set(.15);
+   algae2.set(.15);
     if(PestoLink.buttonHeld(buttonA)) { //L2
         pivotGoal = pivotL2;
         servoGoal = servoL2;
@@ -283,10 +284,14 @@ void loop() {
       servoGoal = servoL4;
       pivotGoal = pivotL4;
       }
+    if(PestoLink.buttonHeld(downDPad)) { //L1
+      servoGoal = servoL1;
+      pivotGoal = pivotL1;
+    }
     if(PestoLink.buttonHeld(leftTrigger)) { //INTAKE
-       coral.set(1);
+       coral.set(-1);
     }else if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
-      coral.set(-1);
+      coral.set(1);
     }else{
       coral.set(0);
     }
@@ -315,8 +320,8 @@ void loop() {
       algae1.set(-1);
       algae2.set(-1);
     }else{
-      algae1.set(0);
-      algae2.set(0);
+      algae1.set(.15);
+      algae2.set(.15);
     }
   }
 /*

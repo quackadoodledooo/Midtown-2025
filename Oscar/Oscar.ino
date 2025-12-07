@@ -52,6 +52,25 @@ void setup() {
   Drive4.setMotorCurve(0.6, 1, 0, 2);
 }
 
+void moveWithPreset(int pivotHeight, int elevatorHeight, int servoDirection, int time, float speed) {
+  Turn4.write(servoDirection);
+  Turn3.write(servoDirection);
+  Turn2.write(servoDirection);
+  Turn1.write(servoDirection);
+  servoGoal = elevatorHeight;
+  delay(250);
+  pivotGoal = pivotHeight;
+  Drive4.set(speed);
+  Drive3.set(speed);
+  Drive2.set(speed);
+  Drive1.set(speed);
+  delay(time-250);
+  Drive4.set(0);
+  Drive3.set(0);
+  Drive2.set(0);
+  Drive1.set(0);
+}
+
 void leftL4Barge() {
 
 }
@@ -59,7 +78,39 @@ void leftL4Barge() {
 
 
 void rightL4Barge() {
+  //move forward for 3 seconds while moving elevator and pivot to scoring position;
+  moveWithPreset(pivotL4, servoL4, 90, 2000, -1);
+  
+  //score coral;
+  coral.set(1);
+  delay(500);
+  coral.set(0);
+  
+  //move backward while moving to dealigify
+  moveWithPreset(pivotAL3, servoAL2, 90, 500, 1);
 
+  // move forward while pulling in algae
+  algae1.set(1);
+  algae2.set(1);
+  moveWithPreset(pivotAL3, servoAL3, 90, 500, -1);
+  delay(250);
+  algae1.set(0.15);
+  algae2.set(0.15);
+
+  //move backward
+  moveWithPreset(pivotSTOW, servoSTOW, 90, 250, 1);
+
+  //move right
+  moveWithPreset(pivotBarge, servoBarge, 0, 1000, 1);
+
+  // move backward 
+  moveWithPreset(pivotBarge, servoBarge, 90, 250, 1);
+
+  algae1.set(-1);
+  algae2.set(-1);
+  delay(250);
+  algae1.set(0);
+  algae2.set(0);
 }
 
 
@@ -78,23 +129,7 @@ void leftL4Load() {
 void rightL4Load() {
   
   //move forward for 3 seconds while moving elevator and pivot to scoring position;
-  Turn4.write(90);
-  Turn3.write(90);
-  Turn2.write(90);
-  Turn1.write(90);
-  delay(250);
-  Drive4.set(-1);
-  Drive3.set(-1);
-  Drive2.set(-1);
-  Drive1.set(-1);
-  servoGoal = servoL4;
-  delay(1000);
-  pivotGoal = pivotL4;
-  delay(200);
-  Drive4.set(0);
-  Drive3.set(0);
-  Drive2.set(0);
-  Drive1.set(0);
+  moveWithPreset(pivotL4, servoL4, 90, 3000, -1);
 
   //score coral;
   coral.set(1);
@@ -102,18 +137,7 @@ void rightL4Load() {
   coral.set(0);
   
   //move backward while stowing pivot/elevator
-  Drive4.set(1);
-  Drive3.set(1);
-  Drive2.set(1);
-  Drive1.set(1);
-  delay(500);
-  pivotGoal = pivotSTOW;
-  delay(1000);
-  servoGoal = servoSTOW;
-  Drive4.set(0);
-  Drive3.set(0);
-  Drive2.set(0);
-  Drive1.set(0);
+  moveWithPreset(pivotSTOW, servoSTOW, 90, 2000, 1);
 
   //turn
   Turn4.write(135);
@@ -261,68 +285,65 @@ void loop() {
   }
 
   if(PestoLink.buttonHeld(rightBumper)) { //Prepare to score
-        pivotGoal = pivotReady;
         servoGoal = servoReady;
+        delay(500);
+        pivotGoal = pivotReady;
       }
 
   if(STATE == CORAL) { // CORAL MODE PRESETS
    algae1.set(.15);
    algae2.set(.15);
     if(PestoLink.buttonHeld(buttonA)) { //L2
-        pivotGoal = pivotL2;
+        servoGoal = servoL2 + 50;
+        delay(1000);
         servoGoal = servoL2;
+        pivotGoal = pivotL2;
       }
     if(PestoLink.buttonHeld(buttonB)) { //L3
-        pivotGoal = pivotL3;
         servoGoal = servoL3;
+        delay(1000);
+        pivotGoal = pivotL3;
       }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
-      pivotGoal = pivotSTOW;
+      servoGoal = servoSTOW + 50;
+      delay(1000);
       servoGoal = servoSTOW;
-      }
+      pivotGoal = pivotSTOW;
+    }
     if(PestoLink.buttonHeld(buttonY)) { //L4
       servoGoal = servoL4;
+      delay(1000);
       pivotGoal = pivotL4;
       }
     if(PestoLink.buttonHeld(downDPad)) { //L1
+      servoGoal = servoL1 + 50;
+      delay(1000);
       servoGoal = servoL1;
       pivotGoal = pivotL1;
-    }
-    if(PestoLink.buttonHeld(leftTrigger)) { //INTAKE
-       coral.set(-1);
-    }else if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
-      coral.set(1);
-    }else{
-      coral.set(0);
     }
 
   } else if (STATE == ALGAE) { // ALGAE MODE PRESETS
     if(PestoLink.buttonHeld(buttonA)) { //L2 algae
-        pivotGoal = pivotAL2;
         servoGoal = servoAL2;
+        delay(1000);
+        pivotGoal = pivotAL2;
     }
     if(PestoLink.buttonHeld(buttonB)) { //L3 algae
         pivotGoal = pivotAL3;
+        delay(1000);
         servoGoal = servoAL3;
     }
     if(PestoLink.buttonHeld(buttonY)) { //Barge
       servoGoal = servoBarge;
+      delay(1000);
       pivotGoal = pivotBarge;
     }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
-      pivotGoal = pivotSTOW;
+      servoGoal = servoSTOW + 50;
+      delay(1000);
       servoGoal = servoSTOW;
+      pivotGoal = pivotSTOW;
       }
-    if(PestoLink.buttonHeld(leftTrigger)){ //INTAKE
-      algae1.set(1);
-      algae2.set(1);
-    }else if(PestoLink.buttonHeld(rightTrigger)){// OUTTAKE
-      algae1.set(-1);
-      algae2.set(-1);
-    }else{
-      algae1.set(.15);
-      algae2.set(.15);
-    }
   }
 /*
   if(pivotGoal>720) pivotGoal = 720;
@@ -506,6 +527,27 @@ void taskUpdateSwerve(void* pvParameters) {
     Serial.println(pivotPosition);
     Serial.println(pivotGoal);
     
+    if (STATE == CORAL) {
+      if(PestoLink.buttonHeld(leftTrigger)) { //INTAKE
+        coral.set(-1);
+      }else if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
+        coral.set(1);
+      }else{
+        coral.set(0);
+      }
+    } else if (STATE == ALGAE) {
+      if(PestoLink.buttonHeld(leftTrigger)){ //INTAKE
+        algae1.set(1);
+        algae2.set(1);
+      }else if(PestoLink.buttonHeld(rightTrigger)){// OUTTAKE
+        algae1.set(-1);
+        algae2.set(-1);
+      }else{
+        algae1.set(.15);
+        algae2.set(.15);
+    }
+    }
+
     vTaskDelay(pdMS_TO_TICKS(10));  //this line is like arduino delay() but for rtos tasks
   }
 }

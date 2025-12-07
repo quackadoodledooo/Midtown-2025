@@ -78,6 +78,12 @@ void leftL4Barge() {
 
 
 void rightL4Barge() {
+
+}
+
+
+
+void centerL4Barge() {
   //move forward for 3 seconds while moving elevator and pivot to scoring position;
   moveWithPreset(pivotL4, servoL4, 90, 2000, -1);
   
@@ -86,8 +92,8 @@ void rightL4Barge() {
   delay(500);
   coral.set(0);
   
-  //move backward while moving to dealigify
-  moveWithPreset(pivotAL3, servoAL2, 90, 500, 1);
+  //move backward at an angle while adjusting elevator to dealigify
+  moveWithPreset(pivotAL3, servoAL2, 70, 500, 1);
 
   // move forward while pulling in algae
   algae1.set(1);
@@ -111,12 +117,6 @@ void rightL4Barge() {
   delay(250);
   algae1.set(0);
   algae2.set(0);
-}
-
-
-
-void centerL4Barge() {
-
 }
 
 

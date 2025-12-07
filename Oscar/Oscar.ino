@@ -33,6 +33,7 @@ void setup() {
   Serial.begin(115200);
   NoU3.calibrateIMUs();
   pivot.beginEncoder();
+  pivot.setInverted(true);
   xTaskCreatePinnedToCore(taskUpdateSwerve, "taskUpdateSwerve", 4096, NULL, 2, NULL, 1);
   NoU3.setServiceLight(LIGHT_DISABLED);
 
@@ -205,22 +206,6 @@ void setLEDS() {
 }
 
 void loop() {
-  
-  NoU3.updateIMUs();
-  NoU3.updateServiceLight();
-  heading = NoU3.yaw * angular_scale;
-  roll = NoU3.roll * angular_scale;
-  pitch = NoU3.pitch * angular_scale;
-  currentTime = millis();
-  pivotPosition = pivot.getPosition();
-  setLEDS();
-
-  float batteryVoltage = NoU3.getBatteryVoltage();
-  PestoLink.printBatteryVoltage(batteryVoltage);
-
-  if (PestoLink.buttonHeld(leftMain)) {
-      PestoLink.rumble();
-  }
 
   if(STATE == START){
     runAuto();
@@ -263,119 +248,83 @@ void loop() {
   }
   //switch modes
   if(PestoLink.buttonHeld(leftBumper)) {
-    if(millis() - lastModeSwitch >= 200){
+    if(millis() - lastModeSwitch >= 400){
       if(STATE == CORAL) {
          STATE = ALGAE;
-         lastModeSwitch = millis();
-         coral.setBrakeMode(true);
-         algae1.setBrakeMode(false);
-         algae2.setBrakeMode(false);
-      }
-      if(STATE == ALGAE){
+         lastModeSwitch = millis(); 
+      }else{
          STATE = CORAL;
          lastModeSwitch = millis();
-         coral.setBrakeMode(false);
-         algae1.setBrakeMode(true);
-         algae2.setBrakeMode(true);
       } 
     }
   }
 
   if(PestoLink.buttonHeld(rightBumper)) { //Prepare to score
-      servoGoal = servoReady+20;
-      diffL2 += currentTime - previousTime;
-      if(diffL2 > 1000){
         pivotGoal = pivotReady;
         servoGoal = servoReady;
-        diffL2 = 0; 
       }
-    }
 
   if(STATE == CORAL) { // CORAL MODE PRESETS
+   //   algae1.set(-.5);
+     // algae2.set(.5);
     if(PestoLink.buttonHeld(buttonA)) { //L2
-      servoGoal = servoL2+20;
-      diffL2 += currentTime - previousTime;
-      if(diffL2 > 1000){
         pivotGoal = pivotL2;
         servoGoal = servoL2;
-        diffL2 = 0; 
       }
-    }
     if(PestoLink.buttonHeld(buttonB)) { //L3
-      servoGoal = servoL3+20;
-      diffL3 += currentTime - previousTime;
-      if(diffL3 > 1000){
         pivotGoal = pivotL3;
         servoGoal = servoL3;
-        diffL3 = 0; 
       }
-    }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
       pivotGoal = pivotSTOW;
-      servoGoal = servoSTOW+20;
-      diffSTOW += currentTime - previousTime;
-      if(diffSTOW > 1000){
-        servoGoal = servoSTOW;
-        diffSTOW = 0; 
+      servoGoal = servoSTOW;
       }
-    }
     if(PestoLink.buttonHeld(buttonY)) { //L4
       servoGoal = servoL4;
-      diffL4 += currentTime - previousTime;
-      if(diffL4 > 1000){
-        pivotGoal = pivotL4;
-        diffL4 = 0; 
+      pivotGoal = pivotL4;
       }
-    }
     if(PestoLink.buttonHeld(leftTrigger)) { //INTAKE
        coral.set(1);
-    }
-    if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
+    }else if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
       coral.set(-1);
+    }else{
+      coral.set(0);
     }
 
   } else if (STATE == ALGAE) { // ALGAE MODE PRESETS
-    if(PestoLink.buttonHeld(buttonY)) { //L2 algae
-      servoGoal = servoAL2+20;
-      diffAL2 += currentTime - previousTime;
-      if(diffAL2 > 1000){
+    if(PestoLink.buttonHeld(buttonA)) { //L2 algae
         pivotGoal = pivotAL2;
         servoGoal = servoAL2;
-        diffAL2 = 0; 
-      }
     }
-    if(PestoLink.buttonHeld(buttonA)) { //L3 algae
-      servoGoal = servoAL3 + 20;
-      diffAL3 += currentTime - previousTime;
-      if(diffAL3 > 1000){
+    if(PestoLink.buttonHeld(buttonB)) { //L3 algae
         pivotGoal = pivotAL3;
         servoGoal = servoAL3;
-        diffAL3 = 0; 
-      }
     }
-    if(PestoLink.buttonHeld(buttonB)) { //Barge
+    if(PestoLink.buttonHeld(buttonY)) { //Barge
       servoGoal = servoBarge;
-      diffBarge += currentTime - previousTime;
-      if(diffBarge > 1000){
-        pivotGoal = pivotBarge;
-        diffBarge = 0; //hello
-      }
+      pivotGoal = pivotBarge;
     }
+    if(PestoLink.buttonHeld(buttonX)) { //Stow
+      pivotGoal = pivotSTOW;
+      servoGoal = servoSTOW;
+      }
     if(PestoLink.buttonHeld(leftTrigger)){ //INTAKE
       algae1.set(1);
-      algae2.set(-1);
-    }
-    if(PestoLink.buttonHeld(rightTrigger)){// OUTTAKE
-      algae1.set(-1);
       algae2.set(1);
+    }else if(PestoLink.buttonHeld(rightTrigger)){// OUTTAKE
+      algae1.set(-1);
+      algae2.set(-1);
+    }else{
+      algae1.set(0);
+      algae2.set(0);
     }
   }
-
+/*
   if(pivotGoal>720) pivotGoal = 720;
   if(pivotGoal<0) pivotGoal = 0;
   if(servoGoal>150) servoGoal = 150;
   if(servoGoal<0) servoGoal = 0;
-  
+  */
   previousTime = currentTime; 
 
       
@@ -383,6 +332,17 @@ void loop() {
 
 void taskUpdateSwerve(void* pvParameters) {
   while (true) {
+  NoU3.updateServiceLight();
+  heading = NoU3.yaw * angular_scale;
+  roll = NoU3.roll * angular_scale;
+  pitch = NoU3.pitch * angular_scale;
+  currentTime = millis();
+  pivotPosition = ((pivot.getPosition()/1793.103)*360);
+  setLEDS();
+
+  float batteryVoltage = NoU3.getBatteryVoltage();
+  PestoLink.printBatteryVoltage(batteryVoltage);
+
 
     // Set up Gyro and its variables
     theta = NoU3.yaw - headingOffset;

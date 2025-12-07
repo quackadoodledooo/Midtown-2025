@@ -45,21 +45,21 @@ CRGB leds[NUM_LEDS];
   int pivotError = 0;
   double pivotPosition = 0;
   //pivotPID constants
-    const float pivotKp = 0.2;
-    const float pivotKd = 0.1;
-    const float pivotKi = 0.005; 
+    const float pivotKp = 0.015;
+    const float pivotKd = 0.15;
+    const float pivotKi = 0.00; 
     const float pivotMin = -1;
     const float pivotMax = 1; 
 
   //Preset values for pivot
     const int pivotSTOW = 0;
-    const int pivotReady = 40;
-    const int pivotL2 = 360;
-    const int pivotL3 = 500;
-    const int pivotL4 = 500;
-    const int pivotAL2 = 0;
-    const int pivotAL3 = 600;
-    const int pivotBarge = 700;
+    const int pivotReady = 60;
+    const int pivotL2 = 800;
+    const int pivotL3 = 1000;
+    const int pivotL4 = 1100;
+    const int pivotAL2 = 350;
+    const int pivotAL3 = 480;
+    const int pivotBarge = 1200;
 
 //Variables for elevator
   int servoGoal = 0;
@@ -67,11 +67,11 @@ CRGB leds[NUM_LEDS];
     const int servoSTOW = 0;
     const int servoReady = 20;
     const int servoL2 = 0;
-    const int servoL3 = 0;
+    const int servoL3 = 30;
     const int servoL4 = 120;
-    const int servoAL2 = 100;
-    const int servoAL3 = 0;
-    const int servoBarge = 150;
+    const int servoAL2 = 60;
+    const int servoAL3 = 130;
+    const int servoBarge = 130;
 
 //Bindings for Xbox controller
   const int buttonA = 0;
@@ -102,10 +102,10 @@ CRGB leds[NUM_LEDS];
 
   double theta;
   double headingOffset = 0.0;
-  int mod1Offset = 405;
-  int mod2Offset = 135;
-  int mod3Offset = 315;
-  int mod4Offset = 225;
+int mod1Offset = 671; 
+int mod2Offset = 230; 
+int mod3Offset = 315; 
+int mod4Offset = 940; 
   int lastOffsetTime = millis();
   const bool AM_DEBUGGING = false;
 

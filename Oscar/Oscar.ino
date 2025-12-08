@@ -294,53 +294,102 @@ void loop() {
    algae1.set(.15);
    algae2.set(.15);
     if(PestoLink.buttonHeld(buttonA)) { //L2
-        servoGoal = servoL2 + 50;
-        delay(1000);
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
         servoGoal = servoL2;
         pivotGoal = pivotL2;
+      }else {
+      servoGoal = servoL2;
+      pivotGoal = pivotL2;
+      }
       }
     if(PestoLink.buttonHeld(buttonB)) { //L3
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
         servoGoal = servoL3;
-        delay(1000);
         pivotGoal = pivotL3;
+      }else {
+      servoGoal = servoL3;
+      pivotGoal = pivotL3;
+      }
       }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
-      servoGoal = servoSTOW + 50;
-      delay(1000);
+      servoGoal = servoReady;
+      pivotGoal = pivotReady;
+      delay(800);
       servoGoal = servoSTOW;
       pivotGoal = pivotSTOW;
     }
     if(PestoLink.buttonHeld(buttonY)) { //L4
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
+        servoGoal = servoL4;
+        pivotGoal = pivotL4;
+      }else {
       servoGoal = servoL4;
-      delay(1000);
       pivotGoal = pivotL4;
       }
+    }
     if(PestoLink.buttonHeld(downDPad)) { //L1
-      servoGoal = servoL1 + 50;
-      delay(1000);
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
+        servoGoal = servoL1;
+        pivotGoal = pivotL1;
+      }else {
       servoGoal = servoL1;
       pivotGoal = pivotL1;
+      }
     }
 
   } else if (STATE == ALGAE) { // ALGAE MODE PRESETS
     if(PestoLink.buttonHeld(buttonA)) { //L2 algae
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
         servoGoal = servoAL2;
-        delay(1000);
         pivotGoal = pivotAL2;
+      }else {
+      servoGoal = servoAL2;
+      pivotGoal = pivotAL2;
+      }
     }
     if(PestoLink.buttonHeld(buttonB)) { //L3 algae
-        pivotGoal = pivotAL3;
-        delay(1000);
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
         servoGoal = servoAL3;
+        pivotGoal = pivotAL3;
+      }else {
+      servoGoal = servoAL3;
+      pivotGoal = pivotAL3;
+      }
     }
     if(PestoLink.buttonHeld(buttonY)) { //Barge
+      if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
+        servoGoal = servoReady + 15;
+        pivotGoal = pivotReady + 80;
+        delay(600);
+        servoGoal = servoBarge;
+        pivotGoal = pivotBarge;
+      }else {
       servoGoal = servoBarge;
-      delay(1000);
       pivotGoal = pivotBarge;
+      }
     }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
-      servoGoal = servoSTOW + 50;
-      delay(1000);
+      servoGoal = servoReady;
+      pivotGoal = pivotReady;
+      delay(800);
       servoGoal = servoSTOW;
       pivotGoal = pivotSTOW;
       }

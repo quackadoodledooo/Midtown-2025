@@ -53,10 +53,10 @@ CRGB leds[NUM_LEDS];
 
   //Preset values for pivot
     const int pivotSTOW = 0;
-    const int pivotReady = 70;
+    const int pivotReady = 170;
     const int pivotL1 = 750;
     const int pivotL2 = 875;
-    const int pivotL3 = 1000;
+    const int pivotL3 = 1050;
     const int pivotL4 = 1075;
     const int pivotAL2 = 325;
     const int pivotAL3 = 480;
@@ -66,11 +66,11 @@ CRGB leds[NUM_LEDS];
   int servoGoal = 0;
   //Preset values for elevator
     const int servoSTOW = 10;
-    const int servoReady = 20;
+    const int servoReady = 25;
     const int servoL1 = 0;
     const int servoL2 = 0;
-    const int servoL3 = 32;
-    const int servoL4 = 120;
+    const int servoL3 = 40;
+    const int servoL4 = 130;
     const int servoAL2 = 70;
     const int servoAL3 = 130;
     const int servoBarge = 130;

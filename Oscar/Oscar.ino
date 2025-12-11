@@ -231,7 +231,6 @@ void setLEDS() {
 }
 
 void loop() {
-
   if(STATE == START){
     runAuto();
   }
@@ -304,7 +303,7 @@ void loop() {
       servoGoal = servoL2;
       pivotGoal = pivotL2;
       }
-      }
+    }
     if(PestoLink.buttonHeld(buttonB)) { //L3
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
         servoGoal = servoReady + 15;
@@ -316,7 +315,7 @@ void loop() {
       servoGoal = servoL3;
       pivotGoal = pivotL3;
       }
-      }
+    }
     if(PestoLink.buttonHeld(buttonX)) { //Stow
       servoGoal = servoReady;
       pivotGoal = pivotReady;
@@ -394,15 +393,13 @@ void loop() {
       pivotGoal = pivotSTOW;
       }
   }
-/*
+  /*
   if(pivotGoal>720) pivotGoal = 720;
   if(pivotGoal<0) pivotGoal = 0;
   if(servoGoal>150) servoGoal = 150;
   if(servoGoal<0) servoGoal = 0;
   */
   previousTime = currentTime; 
-
-      
 }
 
 void taskUpdateSwerve(void* pvParameters) {

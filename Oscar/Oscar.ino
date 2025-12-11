@@ -38,7 +38,7 @@ void setup() {
   xTaskCreatePinnedToCore(taskUpdateSwerve, "taskUpdateSwerve", 4096, NULL, 2, NULL, 1);
   NoU3.setServiceLight(LIGHT_DISABLED);
 
-  pinMode(6, INPUT_PULLUP);
+  //pinMode(6, INPUT_PULLUP);
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
   FastLED.setBrightness(20);
@@ -294,8 +294,8 @@ void loop() {
    algae2.set(.15);
     if(PestoLink.buttonHeld(buttonA)) { //L2
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoL2;
         pivotGoal = pivotL2;
@@ -306,8 +306,8 @@ void loop() {
     }
     if(PestoLink.buttonHeld(buttonB)) { //L3
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoL3;
         pivotGoal = pivotL3;
@@ -319,14 +319,14 @@ void loop() {
     if(PestoLink.buttonHeld(buttonX)) { //Stow
       servoGoal = servoReady;
       pivotGoal = pivotReady;
-      delay(800);
+      delay(1100);
       servoGoal = servoSTOW;
       pivotGoal = pivotSTOW;
     }
     if(PestoLink.buttonHeld(buttonY)) { //L4
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoL4;
         pivotGoal = pivotL4;
@@ -337,8 +337,8 @@ void loop() {
     }
     if(PestoLink.buttonHeld(downDPad)) { //L1
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoL1;
         pivotGoal = pivotL1;
@@ -351,8 +351,8 @@ void loop() {
   } else if (STATE == ALGAE) { // ALGAE MODE PRESETS
     if(PestoLink.buttonHeld(buttonA)) { //L2 algae
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoAL2;
         pivotGoal = pivotAL2;
@@ -363,8 +363,8 @@ void loop() {
     }
     if(PestoLink.buttonHeld(buttonB)) { //L3 algae
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoAL3;
         pivotGoal = pivotAL3;
@@ -375,8 +375,8 @@ void loop() {
     }
     if(PestoLink.buttonHeld(buttonY)) { //Barge
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
-        servoGoal = servoReady + 15;
-        pivotGoal = pivotReady + 80;
+        servoGoal = servoReady;
+        pivotGoal = pivotReady;
         delay(600);
         servoGoal = servoBarge;
         pivotGoal = pivotBarge;
@@ -575,6 +575,7 @@ void taskUpdateSwerve(void* pvParameters) {
     
     if (STATE == CORAL) {
       if(PestoLink.buttonHeld(leftTrigger)) { //INTAKE
+        PestoLink.rumble();
         coral.set(-1);
       }else if(PestoLink.buttonHeld(rightTrigger)){ //OUTTAKE
         coral.set(1);

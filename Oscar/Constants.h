@@ -23,11 +23,17 @@ CRGB leds[NUM_LEDS];
   int currentTime = 0;
   int previousTime = 0;
   bool autoRan = false;
+  bool autoActive = false;
+  int autoAngle = 0;
+  int autoDrive = 0;
+  int autoTurn = 0; 
   enum {
     START,
     CORAL,
     ALGAE
   } STATE;
+
+  
 
 //diff variables to be used in controls to control delay
   int diffSTOW = 0;

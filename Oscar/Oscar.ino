@@ -84,34 +84,45 @@ void rightL4Barge() {
 
 
 void centerL4Barge() {
-  //move forward for 3 seconds while moving elevator and pivot to scoring position;
-  moveWithPreset(pivotL4, servoL4, 90, 2000, -1);
-  
-  //score coral;
+  autoAngle = 0 * (PI/180);
+  autoDrive = 1;
+  servoGoal = servoL4;
+  delay(100);
+  pivotGoal = pivotL4;
+  delay(1000);
+  autoDrive = 0; 
   coral.set(1);
-  delay(500);
+  delay(250);
   coral.set(0);
-  
-  //move backward at an angle while adjusting elevator to dealigify
-  moveWithPreset(pivotAL3, servoAL2, 70, 500, 1);
-
-  // move forward while pulling in algae
+  autoDrive = -1;
+  autoAngle = 10 * (PI/180);
+  delay(700);
+  autoDrive = 0;
+  autoAngle = 0 * (PI/180);
+  pivotGoal = pivotAL3;
+  servoGoal = servoAL3;
+  delay(200);
+  autoDrive = 1;
   algae1.set(1);
   algae2.set(1);
-  moveWithPreset(pivotAL3, servoAL3, 90, 500, -1);
-  delay(250);
+  delay(1000);
+  autoDrive = 0.25;
   algae1.set(0.15);
   algae2.set(0.15);
-
-  //move backward
-  moveWithPreset(pivotSTOW, servoSTOW, 90, 250, 1);
-
-  //move right
-  moveWithPreset(pivotBarge, servoBarge, 0, 1000, 1);
-
-  // move backward 
-  moveWithPreset(pivotBarge, servoBarge, 90, 250, 1);
-
+  delay(500);
+  autoDrive = 0;
+  autoAngle = 90 * (PI/180);
+  delay(250);
+  autoDrive = 1;
+  pivotGoal = pivotBarge;
+  servoGoal = servoBarge;
+  delay(2000);
+  autoDrive = 0;
+  autoAngle = 0 * (PI/180);
+  delay(250);
+  autoDrive = -1; 
+  delay(800);
+  autoDrive = 0; 
   algae1.set(-1);
   algae2.set(-1);
   delay(250);
@@ -287,7 +298,7 @@ void loop() {
         servoGoal = servoReady;
         delay(500);
         pivotGoal = pivotReady;
-      }
+  }
 
   if(STATE == CORAL) { // CORAL MODE PRESETS
    algae1.set(.15);
@@ -417,7 +428,7 @@ void taskUpdateSwerve(void* pvParameters) {
 
 
     // Set up Gyro and its variables
-    theta = NoU3.yaw - headingOffset;
+    theta = NoU3.yaw*(180/PI) - headingOffset;
 
     // get magnitude and direction and assign to drivetrainVectors array, add offsets
     // set turn vector magnitude
@@ -425,9 +436,9 @@ void taskUpdateSwerve(void* pvParameters) {
     // ANGLES IN RADIANS
     if (PestoLink.isConnected()) {
 
-      driveAngle = atan2(PestoLink.getAxis(1), PestoLink.getAxis(0));
-      driveMag = sqrt(pow(PestoLink.getAxis(1), 2) + pow(PestoLink.getAxis(0), 2));
-      turnMag = PestoLink.getAxis(2);
+      driveAngle = autoActive ? (autoAngle) : (atan2(PestoLink.getAxis(1), PestoLink.getAxis(0)));
+      driveMag = autoActive ? (autoDrive) : (sqrt(pow(PestoLink.getAxis(1), 2) + pow(PestoLink.getAxis(0), 2)));
+      turnMag = autoActive ? (autoTurn) : (PestoLink.getAxis(2));
 
       drivetrainVectors[0][0] = driveMag;
       drivetrainVectors[0][1] = driveAngle + ((mod1Offset + theta) * (PI / 180));
@@ -449,7 +460,7 @@ void taskUpdateSwerve(void* pvParameters) {
     //Heading Offset Control
 
     if (PestoLink.isConnected() && PestoLink.buttonHeld(10) && PestoLink.buttonHeld(11)) {
-      headingOffset = NoU3.yaw;
+      headingOffset = NoU3.yaw*(180/PI);
     }
 
 

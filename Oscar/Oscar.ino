@@ -86,6 +86,7 @@ void rightL4Barge() {
 
 
 void centerL4Barge() {
+<<<<<<< HEAD
   //move forward for 4 seconds while moving elevator and pivot to scoring position;
   moveWithPreset(pivotL4, servoL4, 90, 4000, -1);
   
@@ -113,6 +114,8 @@ void centerL4Barge() {
 
   // move backward 
   moveWithPreset(pivotBarge, servoBarge, 90, 1000, 1);
+=======
+>>>>>>> 3f0f0a495162742551f2de8b101f70be0e1052e1
   autoAngle = 0 * (PI/180);
   autoDrive = 1;
   servoGoal = servoL4;

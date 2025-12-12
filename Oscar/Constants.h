@@ -104,11 +104,11 @@ CRGB leds[NUM_LEDS];
 
   double theta;
   double headingOffset = 0.0;
-int mod1Offset = 671; 
-int mod2Offset = 230; 
+int mod1Offset = 491; 
+int mod2Offset = 50; 
 int mod3Offset = 315; 
 int mod4Offset = 940; 
   int lastOffsetTime = millis();
-  const bool AM_DEBUGGING = false;
+  const bool AM_DEBUGGING = true;
 
 #endif

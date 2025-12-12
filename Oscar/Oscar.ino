@@ -34,6 +34,8 @@ void setup() {
   Serial.begin(115200);
   NoU3.calibrateIMUs();
   pivot.beginEncoder();
+  Drive1.setInverted(true);
+  Drive2.setInverted(true);
   pivot.setInverted(true);
   xTaskCreatePinnedToCore(taskUpdateSwerve, "taskUpdateSwerve", 4096, NULL, 2, NULL, 1);
   NoU3.setServiceLight(LIGHT_DISABLED);
@@ -84,37 +86,37 @@ void rightL4Barge() {
 
 
 void centerL4Barge() {
-  //move forward for 3 seconds while moving elevator and pivot to scoring position;
-  moveWithPreset(pivotL4, servoL4, 90, 2000, -1);
+  //move forward for 4 seconds while moving elevator and pivot to scoring position;
+  moveWithPreset(pivotL4, servoL4, 90, 4000, -1);
   
   //score coral;
   coral.set(1);
-  delay(500);
+  delay(1000);
   coral.set(0);
   
   //move backward at an angle while adjusting elevator to dealigify
-  moveWithPreset(pivotAL3, servoAL2, 70, 500, 1);
+  moveWithPreset(pivotAL3, servoAL2, 70, 2000, 1);
 
   // move forward while pulling in algae
   algae1.set(1);
   algae2.set(1);
   moveWithPreset(pivotAL3, servoAL3, 90, 500, -1);
-  delay(250);
+  delay(2000);
   algae1.set(0.15);
   algae2.set(0.15);
 
   //move backward
-  moveWithPreset(pivotSTOW, servoSTOW, 90, 250, 1);
+  moveWithPreset(pivotSTOW, servoSTOW, 90, 1000, 1);
 
   //move right
   moveWithPreset(pivotBarge, servoBarge, 0, 1000, 1);
 
   // move backward 
-  moveWithPreset(pivotBarge, servoBarge, 90, 250, 1);
+  moveWithPreset(pivotBarge, servoBarge, 90, 1000, 1);
 
   algae1.set(-1);
   algae2.set(-1);
-  delay(250);
+  delay(500);
   algae1.set(0);
   algae2.set(0);
 }
@@ -234,6 +236,7 @@ void loop() {
   if(STATE == START){
     runAuto();
   }
+  if(PestoLink.keyHeld(Key::B)) ESP.restart();
 
   FastLED.show();
 
@@ -412,6 +415,10 @@ void taskUpdateSwerve(void* pvParameters) {
   pivotPosition = ((pivot.getPosition()/1793.103)*360);
   setLEDS();
 
+  //start mode button
+  if(PestoLink.keyHeld(Key::X)){
+    STATE = START;
+  }
   float batteryVoltage = NoU3.getBatteryVoltage();
   PestoLink.printBatteryVoltage(batteryVoltage);
 

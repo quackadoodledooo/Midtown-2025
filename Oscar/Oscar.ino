@@ -86,7 +86,6 @@ void rightL4Barge() {
 
 
 void centerL4Barge() {
-<<<<<<< HEAD
   //move forward for 4 seconds while moving elevator and pivot to scoring position;
   moveWithPreset(pivotL4, servoL4, 90, 4000, -1);
   
@@ -114,8 +113,6 @@ void centerL4Barge() {
 
   // move backward 
   moveWithPreset(pivotBarge, servoBarge, 90, 1000, 1);
-
-=======
   autoAngle = 0 * (PI/180);
   autoDrive = 1;
   servoGoal = servoL4;
@@ -155,7 +152,6 @@ void centerL4Barge() {
   autoDrive = -1; 
   delay(800);
   autoDrive = 0; 
->>>>>>> 782b6968de17b7189368238a43f63efda4850feb
   algae1.set(-1);
   algae2.set(-1);
   delay(500);

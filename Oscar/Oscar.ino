@@ -36,6 +36,7 @@ void setup() {
   pivot.beginEncoder();
   Drive1.setInverted(true);
   Drive2.setInverted(true);
+  coral.setInverted(true);
   pivot.setInverted(true);
   xTaskCreatePinnedToCore(taskUpdateSwerve, "taskUpdateSwerve", 4096, NULL, 2, NULL, 1);
   NoU3.setServiceLight(LIGHT_DISABLED);
@@ -608,8 +609,8 @@ void taskUpdateSwerve(void* pvParameters) {
         algae1.set(-1);
         algae2.set(-1);
       }else{
-        algae1.set(.15);
-        algae2.set(.15);
+        algae1.set(.25);
+        algae2.set(.25);
     }
     }
 

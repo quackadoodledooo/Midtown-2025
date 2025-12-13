@@ -11,7 +11,7 @@
 
 #define PI 3.14159265359
 #define FASTLED_ALLOW_INTERRUPTS 0   //FASTLED SERIAL INTERRUPTS ALLOWED TO ZERO
-#define NUM_LEDS 32                 //NUM OF LEDS IN CHAIN                       
+#define NUM_LEDS 8                 //NUM OF LEDS IN CHAIN                       
 #define DATA_PIN 39                 //DATA PIN 5 (GPIO D5)                         
 CRGB leds[NUM_LEDS];
 
@@ -71,7 +71,7 @@ CRGB leds[NUM_LEDS];
 //Variables for elevator
   int servoGoal = 0;
   //Preset values for elevator
-    const int servoSTOW = 10;
+    const int servoSTOW = 8;
     const int servoReady = 25;
     const int servoL1 = 0;
     const int servoL2 = 0;

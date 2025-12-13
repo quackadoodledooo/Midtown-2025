@@ -235,11 +235,14 @@ void runAuto() {
 
 void setLEDS() {
   if (STATE == START) {
-    leds[0] = CRGB::Yellow;
+    for(int i = 0; i<16; i++)
+        leds[i] = CRGB::Yellow;
   } else if (STATE == CORAL) {
-    leds[0] = CRGB::White;
+     for(int i = 0; i<16; i++)
+        leds[i] = CRGB::White;
   } else if (STATE == ALGAE) {
-    leds[0] = CRGB::Blue;
+      for(int i = 0; i<16; i++)
+         leds[0] = CRGB::Blue;
   }
 
 }

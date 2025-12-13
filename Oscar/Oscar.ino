@@ -44,7 +44,7 @@ void setup() {
   //pinMode(6, INPUT_PULLUP);
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);
-  FastLED.setBrightness(20);
+  FastLED.setBrightness(10);
   FastLED.clear();
   FastLED.show();
 
@@ -242,7 +242,7 @@ void setLEDS() {
         leds[i] = CRGB::White;
   } else if (STATE == ALGAE) {
       for(int i = 0; i<16; i++)
-         leds[0] = CRGB::Blue;
+         leds[i] = CRGB::Blue;
   }
 
 }
@@ -308,8 +308,8 @@ void loop() {
   }
 
   if(STATE == CORAL) { // CORAL MODE PRESETS
-   algae1.set(.15);
-   algae2.set(.15);
+   algae1.set(.2);
+   algae2.set(.2);
     if(PestoLink.buttonHeld(buttonA)) { //L2
       if(servoGoal == servoSTOW && pivotGoal == pivotSTOW){
         servoGoal = servoReady;
@@ -612,8 +612,8 @@ void taskUpdateSwerve(void* pvParameters) {
         algae1.set(-1);
         algae2.set(-1);
       }else{
-        algae1.set(.25);
-        algae2.set(.25);
+        algae1.set(.2);
+        algae2.set(.2);
     }
     }
 

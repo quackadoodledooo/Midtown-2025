@@ -11,7 +11,7 @@
 
 #define PI 3.14159265359
 #define FASTLED_ALLOW_INTERRUPTS 0   //FASTLED SERIAL INTERRUPTS ALLOWED TO ZERO
-#define NUM_LEDS 8                 //NUM OF LEDS IN CHAIN                       
+#define NUM_LEDS 16                 //NUM OF LEDS IN CHAIN                       
 #define DATA_PIN 39                 //DATA PIN 5 (GPIO D5)                         
 CRGB leds[NUM_LEDS];
 
@@ -63,7 +63,7 @@ CRGB leds[NUM_LEDS];
     const int pivotL1 = 750;
     const int pivotL2 = 875;
     const int pivotL3 = 1050;
-    const int pivotL4 = 1075;
+    const int pivotL4 = 1100;
     const int pivotAL2 = 325;
     const int pivotAL3 = 480;
     const int pivotBarge = 1200;
